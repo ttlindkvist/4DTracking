@@ -25,8 +25,8 @@ def flatten_array_old(arr):
 def reject_outliers(data, x, m=5):
     idxs = abs(data - np.mean(data)) < m * np.std(data)
     return data[idxs], x[idxs]
-def gaussian(x, amplitude, mean, standard_deviation):
-    return amplitude * np.exp( - (x - mean)**2 / (2*standard_deviation ** 2))
+def gaussian(x, amplitude, mean, standard_deviation, b):
+    return amplitude * np.exp( - (x - mean)**2 / (2*standard_deviation ** 2)) + b
 def num_of_tracks_in_vtxs(vertex_tracks_idx):
     res = []
     for event in vertex_tracks_idx:
