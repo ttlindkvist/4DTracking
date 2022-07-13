@@ -16,7 +16,11 @@ def beautify_plots(plt):
     plt.rcParams["figure.figsize"] = (8, 6)
 
 def flatten_array(arr):
-    return np.concatenate(arr, axis=0)
+    try:
+        flat = np.concatenate(arr, axis=0)
+        return flat
+    except:
+        return arr
 def flatten_array_old(arr):
     flattened = []
     for sub in arr[:]:

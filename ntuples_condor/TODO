@@ -3,8 +3,6 @@ Hard scatter should be first element in both truth and reco
 Always check HS reco vs truth
 
 TODO:
-- plot delta Z for reco with sum pT square > 15 GeV (or 5, 10 GeV)
-
 - Compare reco HS vs truth HS
 - Fit avg time - fits with 180 ps sigma?
 - Reco vertex with smearing - compare to truth
@@ -14,6 +12,7 @@ TODO:
 
 
 DONE:
+- plot delta Z for reco with sum pT square > 15 GeV (or 5, 10 GeV)
 - Plot of reco sum p_t square - distinguish between HS and PU
 - Eta bin track prob vs pT
 - Track prob vs pixel hits - eta separated
