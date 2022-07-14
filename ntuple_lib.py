@@ -44,7 +44,7 @@ def getFirstElems(event_params):
     first_elems = []
     for event_param in event_params:
         first_elems.append(event_param[0])
-    return np.array(first_elems)
+    return np.array(first_elems, dtype='object')
 def binned_mean(x, y, bin_xs):
     mean = []
     for i in range(1, len(bin_xs)):
