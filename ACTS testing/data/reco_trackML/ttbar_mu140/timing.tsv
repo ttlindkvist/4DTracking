@@ -1,0 +1,17 @@
+identifier	time_total_s	time_perevent_s
+Reader:CsvSimHitReader	20.97	0.2097
+Reader:CsvParticleReader	1.292	0.01292
+Algorithm:DigitizationAlgorithm	2.542	0.02542
+Algorithm:TruthSeedSelector	0.2177	0.002177
+Algorithm:SpacePointMaker	0.1837	0.001837
+Algorithm:SeedingAlgorithm	8.261	0.08261
+Algorithm:TrackParamsEstimationAlgorithm	0.7364	0.007364
+Algorithm:TrackFindingAlgorithm	198.1	1.981
+Writer:TrackFinderPerformanceWriter	2.555	0.02555
+Writer:RootTrajectoryStatesWriter	374.8	3.748
+Writer:RootTrajectorySummaryWriter	14.66	0.1466
+Writer:CKFPerformanceWriter	2.837	0.02837
+Writer:TrackFinderPerformanceWriter:endRun	0.02744	0.0002744
+Writer:RootTrajectoryStatesWriter:endRun	0.8901	0.008901
+Writer:RootTrajectorySummaryWriter:endRun	0.001445	1.445e-05
+Writer:CKFPerformanceWriter:endRun	0.07859	0.0007859

@@ -1,0 +1,4 @@
+{
+    "name": "Ubuntu",
+    "image": "ghcr.io/acts-project/ubuntu2004:v28",
+}

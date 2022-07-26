@@ -1,0 +1,43 @@
+
+
+======================= DEPRECATION NOTICE ========================
+The examples executables is deprecated. They will be removed in a
+future version.
+Consider using the python bindings for the example algorithms: 
+https://acts.readthedocs.io/en/latest/examples/python_bindings.html
+===================================================================
+
+
+
+Arguments loaded
+
+Type of vars: N5boost15program_options13variables_mapE
+
+Sequencer setup
+
+Setup magnetic field
+15:21:00    MagneticFiel   INFO      Use no magnetic field
+
+Setup event generator
+ PYTHIA Warning in PhaseSpace2to2tauyz::trialKin: maximum for cross section violated  
+ PYTHIA Warning in MultipartonInteractions::init: maximum increased by factor 4.172
+15:21:22    Sequencer      INFO      Added reader 'EventGenerator'
+
+Preselect particles
+
+selectParticles has been initialized
+
+Set vertexing variables
+
+Vertexing variables has been set
+Add algorithm
+15:21:22    ParticleSele   DEBUG     selection particle rho [0,4)
+15:21:22    ParticleSele   DEBUG     selection particle |z| [0,inf)
+15:21:22    ParticleSele   DEBUG     selection particle time [-inf,inf)
+15:21:22    ParticleSele   DEBUG     selection particle phi [-inf,inf)
+15:21:22    ParticleSele   DEBUG     selection particle eta [-inf,inf)
+15:21:22    ParticleSele   DEBUG     selection particle |eta| [0,2.5)
+15:21:22    ParticleSele   DEBUG     selection particle pt [0.5,inf)
+15:21:22    ParticleSele   DEBUG     remove charged particles 0
+15:21:22    ParticleSele   DEBUG     remove neutral particles 1
+15:21:22    Sequencer      INFO      Added algorithm 'ParticleSelector'
