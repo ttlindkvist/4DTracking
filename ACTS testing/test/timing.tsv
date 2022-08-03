@@ -1,6 +1,6 @@
 identifier	time_total_s	time_perevent_s
-Reader:EventGenerator	9.382	0.9382
-Algorithm:ParticleSelector	0.01009	0.001009
-Algorithm:ParticleSmearing	0.01119	0.001119
-Algorithm:TutorialVertexFinder	1.683	0.1683
-Algorithm:IterativeVertexFinder	0.34	0.034
+Reader:EventGenerator	172.4	1.724
+Algorithm:ParticleSelector	0.2811	0.002811
+Algorithm:ParticleSmearing	0.09656	0.0009656
+Algorithm:TutorialVertexFinder	503.5	5.035
+Algorithm:IterativeVertexFinder	13.26	0.1326
