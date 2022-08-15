@@ -47,9 +47,11 @@ def getFirstElems(event_params):
     return np.array(first_elems, dtype='object')
 def binned_mean(x, y, bin_xs):
     mean = []
+    std = []
     for i in range(1, len(bin_xs)):
         idxs_low  = x >= bin_xs[i-1]
         idxs_high = x < bin_xs[i]
         idxs = np.logical_and(idxs_low, idxs_high)
         mean.append(np.mean(y[idxs]))
-    return np.array(mean)        
+        std.append(np.std(y[idxs], ddof=1)/np.sqrt(len(y[idxs])))
+    return np.array(mean), np.array(std)
