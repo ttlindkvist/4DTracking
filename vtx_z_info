@@ -1,0 +1,234 @@
+def vtx_z_info(events_in_bins, truth_vtx_idx_in_bins, all_truth_vtx_z, reco_vtx_idx_in_bins, all_reco_track_idxs, all_reco_track_weights, all_track_z0, sigma_cut, weight_cut):
+    track_delta_z = []
+    track_delta_z_rms = []
+    
+    track_weight_cut_delta_z = []
+    track_weight_cut_delta_z_rms = []
+    
+    track_sigma_cut_delta_z = []
+    track_sigma_cut_delta_z_rms = []
+    
+    track_vtx_z_res = []
+    track_vtx_z_res_weight_cut = []
+    track_vtx_z_res_sigma_cut = []
+    track_vtx_z_res_std = []
+    track_vtx_z_res_std_weight_cut = []
+    track_vtx_z_res_std_sigma_cut = []
+    
+    vtx_delta_z = []
+    vtx_weighted_delta_z = []
+    vtx_weight_cut_delta_z = []
+    
+    vtx_z_res = []
+    vtx_weighted_z_res = []
+    vtx_weight_cut_z_res = []
+    vtx_weight_cut_weighted_z_res = []
+    vtx_sigma_cut_weighted_z_res = []
+    vtx_z_res_tracks_sigma_cut = []
+    vtx_weighted_z_res_tracks_sigma_cut = []
+
+    vtx_z_res_std = []
+    vtx_weighted_z_res_std = []
+    vtx_weight_cut_z_res_std = []
+    vtx_weight_cut_weighted_z_res_std = []
+    vtx_sigma_cut_weighted_z_res_std = []
+    vtx_z_res_std_tracks_sigma_cut = []
+    vtx_weighted_z_res_std_tracks_sigma_cut = []
+
+    avg_n_tracks = []
+    avg_n_tracks_weight_cut = []
+    avg_n_tracks_sigma_cut = []
+
+    for event_idxs, truth_vtx_idxs, reco_vtx_idxs in zip(events_in_bins, truth_vtx_idx_in_bins, reco_vtx_idx_in_bins):
+        bin_track_delta_z = np.array([])
+        bin_track_delta_z_rms = []
+        
+        bin_vtx_delta_z = []
+        bin_vtx_weighted_delta_z = []
+        
+        bin_track_weight_cut_delta_z = np.array([])
+        bin_track_weight_cut_delta_z_rms = []
+        
+        bin_vtx_weight_cut_delta_z = []
+        bin_vtx_weight_cut_weighted_delta_z = []
+        
+        bin_reco_n_tracks = []
+        bin_reco_n_tracks_weight_cut = []
+        for idx, truth_idx, reco_idx in zip(event_idxs, truth_vtx_idxs, reco_vtx_idxs):
+            idx = idx[0]
+            reco_track_z = all_track_z0[idx][all_reco_track_idxs[idx][reco_idx]]
+            reco_track_weights = all_reco_track_weights[idx][reco_idx]
+            bin_reco_n_tracks.append(len(reco_track_z))
+            
+            truth_z = all_truth_vtx_z[idx][truth_idx]
+            event_track_delta_z = reco_track_z - truth_z
+            
+            bin_track_delta_z = np.concatenate((bin_track_delta_z, event_track_delta_z))
+            bin_track_delta_z_rms.append(np.sqrt(np.mean(event_track_delta_z**2)))
+            
+            reco_vtx_z = np.mean(reco_track_z)
+            reco_vtx_weighted_z = np.average(reco_track_z, weights=reco_track_weights)
+            
+            bin_vtx_delta_z.append(reco_vtx_z - truth_z)
+            bin_vtx_weighted_delta_z.append(reco_vtx_weighted_z - truth_z)
+            
+            # Weight cut
+            weight_cut_idx = np.array(reco_track_weights) > weight_cut
+            weight_cut_track_z = reco_track_z[weight_cut_idx]
+            bin_reco_n_tracks_weight_cut.append(len(weight_cut_track_z))
+            
+            weight_cut_event_delta_z = weight_cut_track_z - truth_z
+        
+            bin_track_weight_cut_delta_z = np.concatenate((bin_track_weight_cut_delta_z, weight_cut_event_delta_z))
+            bin_track_weight_cut_delta_z_rms.append(np.sqrt(np.mean(weight_cut_event_delta_z**2)))
+            
+            weight_cut_vtx_z = np.mean(weight_cut_track_z)
+            weight_cut_vtx_weighted_z = np.average(weight_cut_track_z, weights = reco_track_weights[weight_cut_idx])
+            
+            bin_vtx_weight_cut_delta_z.append(weight_cut_vtx_z - truth_z)
+            bin_vtx_weight_cut_weighted_delta_z.append(weight_cut_vtx_weighted_z - truth_z)
+        
+        avg_n_tracks.append(np.mean(bin_reco_n_tracks))
+        avg_n_tracks_weight_cut.append(np.mean(bin_reco_n_tracks_weight_cut))
+        
+        track_delta_z.append(bin_track_delta_z)
+        track_delta_z_rms.append(bin_track_delta_z_rms)
+        track_weight_cut_delta_z.append(bin_track_weight_cut_delta_z)
+        track_weight_cut_delta_z_rms.append(bin_track_weight_cut_delta_z_rms)
+        
+        track_vtx_z_res.append(np.mean(bin_track_delta_z_rms / np.sqrt(np.array(bin_reco_n_tracks))))
+        track_vtx_z_res_std.append(np.std(bin_track_delta_z_rms / np.sqrt(np.array(bin_reco_n_tracks)), ddof=1)/np.sqrt(len(bin_reco_n_tracks)))
+        track_vtx_z_res_weight_cut.append(np.mean(bin_track_weight_cut_delta_z_rms / np.sqrt(np.array(bin_reco_n_tracks_weight_cut))))
+        track_vtx_z_res_std_weight_cut.append(np.std(bin_track_weight_cut_delta_z_rms / np.sqrt(np.array(bin_reco_n_tracks_weight_cut)), ddof=1)/np.sqrt(len(bin_track_weight_cut_delta_z_rms)))
+        
+        
+        vtx_delta_z.append(bin_vtx_delta_z)
+        vtx_weighted_delta_z.append(bin_vtx_weighted_delta_z)
+        vtx_weight_cut_delta_z.append(bin_vtx_weight_cut_delta_z)
+        
+        vtx_z_res.append(np.sqrt(np.mean(np.array(bin_vtx_delta_z)**2)))
+        vtx_weighted_z_res.append(np.sqrt(np.mean(np.array(bin_vtx_weighted_delta_z)**2)))
+        vtx_weight_cut_z_res.append(np.sqrt(np.mean(np.array(bin_vtx_weight_cut_delta_z)**2)))
+        vtx_weight_cut_weighted_z_res.append(np.sqrt(np.mean(np.array(bin_vtx_weight_cut_weighted_delta_z)**2)))
+        
+        bin_vtx_weighted_delta_z_sigma = np.std(bin_vtx_weighted_delta_z, ddof=1)
+        bin_vtx_delta_z_sigma_cut_idxs = np.abs(bin_vtx_weighted_delta_z - np.mean(bin_vtx_weighted_delta_z)) < sigma_cut*bin_vtx_weighted_delta_z_sigma
+        vtx_sigma_cut_weighted_z_res.append(np.sqrt(np.mean(np.array(bin_vtx_weight_cut_weighted_delta_z)[bin_vtx_delta_z_sigma_cut_idxs]**2)))
+        
+        
+        ## Sigma cutting on tracks both for track based estimate on vtx z res and estimator of vtx z 
+        bin_track_sigma = np.std(bin_track_delta_z)
+        bin_track_sigma_cut_delta_z = []
+        bin_track_sigma_cut_delta_z_rms = []
+        bin_reco_n_tracks_sigma_cut = []
+        
+        bin_vtx_delta_z_tracks_sigma_cut = []
+        bin_vtx_weighted_delta_z_tracks_sigma_cut = []
+        
+        for idx, truth_idx, reco_idx in zip(event_idxs, truth_vtx_idxs, reco_vtx_idxs):
+            idx = idx[0]
+            reco_track_z = all_track_z0[idx][all_reco_track_idxs[idx][reco_idx]]
+            reco_track_weights = all_reco_track_weights[idx][reco_idx]
+            
+            truth_z = all_truth_vtx_z[idx][truth_idx]
+            event_track_delta_z = reco_track_z - truth_z
+            
+            track_sigma_cut_idx = np.abs(event_track_delta_z - np.mean(event_track_delta_z)) < sigma_cut*bin_track_sigma
+            event_track_delta_z_sigma_cut = event_track_delta_z[track_sigma_cut_idx]
+            
+            bin_track_sigma_cut_delta_z.append(event_track_delta_z)
+            bin_track_sigma_cut_delta_z_rms.append(np.sqrt(np.mean(event_track_delta_z**2)))
+            bin_reco_n_tracks_sigma_cut.append(len(event_track_delta_z_sigma_cut))
+            
+            reco_vtx_z_sigma_cut_tracks = np.mean(reco_track_z[track_sigma_cut_idx])
+            reco_vtx_weighted_z_sigma_cut_tracks = np.average(reco_track_z[track_sigma_cut_idx], weights=reco_track_weights[track_sigma_cut_idx])
+            
+            bin_vtx_delta_z_tracks_sigma_cut.append(reco_vtx_z_sigma_cut_tracks - truth_z)
+            bin_vtx_weighted_delta_z_tracks_sigma_cut.append(reco_vtx_weighted_z_sigma_cut_tracks - truth_z)
+        
+        track_sigma_cut_delta_z.append(bin_track_sigma_cut_delta_z)
+        track_sigma_cut_delta_z_rms.append(bin_track_sigma_cut_delta_z_rms)
+        track_vtx_z_res_sigma_cut.append(np.mean(bin_track_sigma_cut_delta_z_rms / np.sqrt(np.array(bin_reco_n_tracks_sigma_cut))))
+        track_vtx_z_res_std_sigma_cut.append(np.std(bin_track_sigma_cut_delta_z_rms / np.sqrt(np.array(bin_reco_n_tracks_sigma_cut)), ddof=1)/np.sqrt(len(bin_reco_n_tracks_sigma_cut)))
+        
+        vtx_z_res_tracks_sigma_cut.append(np.sqrt(np.mean(np.array(bin_vtx_delta_z_tracks_sigma_cut)**2)))
+        vtx_weighted_z_res_tracks_sigma_cut.append(np.sqrt(np.mean(np.array(bin_vtx_weighted_delta_z_tracks_sigma_cut)**2)))
+        
+        # Compute bootstrap std deviations
+        bootstrap_vtx_z_res = []
+        bootstrap_vtx_weighted_z_res = []
+        bootstrap_vtx_weight_cut_z_res = []
+        bootstrap_vtx_weight_cut_weighted_z_res = []
+        
+        bootstrap_vtx_z_res_tracks_sigma_cut = []
+        bootstrap_vtx_weighted_z_res_tracks_sigma_cut = []
+        for _ in range(int(1e3)):
+            bin_vtx_delta_z_idx = np.random.randint(0, len(bin_vtx_delta_z), len(bin_vtx_delta_z))
+            bootstrap_vtx_z_res.append(np.sqrt(np.mean(np.array(bin_vtx_delta_z)[bin_vtx_delta_z_idx]**2)))
+            
+            bin_vtx_weighted_delta_z_idx = np.random.randint(0, len(bin_vtx_weighted_delta_z), len(bin_vtx_weighted_delta_z))
+            bootstrap_vtx_weighted_z_res.append(np.sqrt(np.mean(np.array(bin_vtx_weighted_delta_z)[bin_vtx_weighted_delta_z_idx]**2)))
+            
+            bin_vtx_weight_cut_delta_z_idx = np.random.randint(0, len(bin_vtx_weight_cut_delta_z), len(bin_vtx_weight_cut_delta_z))
+            bootstrap_vtx_weight_cut_z_res.append(np.sqrt(np.mean(np.array(bin_vtx_weight_cut_delta_z)[bin_vtx_weight_cut_delta_z_idx]**2)))
+            
+            bin_vtx_weight_cut_weighted_delta_z_idx = np.random.randint(0, len(bin_vtx_weight_cut_weighted_delta_z), len(bin_vtx_weight_cut_weighted_delta_z))
+            bootstrap_vtx_weight_cut_weighted_z_res.append(np.sqrt(np.mean(np.array(bin_vtx_weight_cut_weighted_delta_z)[bin_vtx_weight_cut_weighted_delta_z_idx]**2)))
+            
+            bin_vtx_delta_z_tracks_sigma_cut_idx = np.random.randint(0, len(bin_vtx_delta_z_tracks_sigma_cut), len(bin_vtx_delta_z_tracks_sigma_cut))
+            bootstrap_vtx_z_res_tracks_sigma_cut.append(np.sqrt(np.mean(np.array(bin_vtx_delta_z_tracks_sigma_cut)[bin_vtx_delta_z_tracks_sigma_cut_idx]**2)))
+            
+            bin_vtx_weighted_delta_z_tracks_sigma_cut_idx = np.random.randint(0, len(bin_vtx_weighted_delta_z_tracks_sigma_cut), len(bin_vtx_weighted_delta_z_tracks_sigma_cut))
+            bootstrap_vtx_weighted_z_res_tracks_sigma_cut.append(np.sqrt(np.mean(np.array(bin_vtx_delta_z_tracks_sigma_cut)[bin_vtx_weighted_delta_z_tracks_sigma_cut_idx]**2)))
+        
+        vtx_z_res_std.append(np.std(bootstrap_vtx_z_res, ddof=1))
+        vtx_weighted_z_res_std.append(np.std(bootstrap_vtx_weighted_z_res, ddof=1))
+        vtx_weight_cut_z_res_std.append(np.std(bootstrap_vtx_weight_cut_z_res, ddof=1))
+        vtx_weight_cut_weighted_z_res_std.append(np.std(bootstrap_vtx_weight_cut_weighted_z_res, ddof=1))
+        vtx_z_res_std_tracks_sigma_cut.append(np.std(bootstrap_vtx_z_res_tracks_sigma_cut, ddof=1))
+        vtx_weighted_z_res_std_tracks_sigma_cut.append(np.std(bootstrap_vtx_weighted_z_res_tracks_sigma_cut, ddof=1))
+        
+        
+    return  {
+                'avg_n_tracks' : avg_n_tracks,
+                'track_delta_z' : track_delta_z,
+                'track_delta_z_rms' : track_delta_z_rms,
+                'track_weight_cut_delta_z' : track_weight_cut_delta_z,
+                'track_weight_cut_delta_z_rms' : track_weight_cut_delta_z_rms,
+                'track_sigma_cut_delta_z' : track_sigma_cut_delta_z,
+                'track_sigma_cut_delta_z_rms' : track_sigma_cut_delta_z_rms,
+                'track_vtx_z_res' : track_vtx_z_res,
+                'track_vtx_z_res_weight_cut' : track_vtx_z_res_weight_cut,
+                'track_vtx_z_res_sigma_cut' : track_vtx_z_res_sigma_cut,
+                'vtx_delta_z' : vtx_delta_z,
+                'vtx_weighted_delta_z' : vtx_weighted_delta_z,
+                'vtx_weight_cut_delta_z' : vtx_weight_cut_delta_z,
+                'vtx_z_res' : vtx_z_res,
+                'vtx_weighted_z_res' : vtx_weighted_z_res,
+                'vtx_weight_cut_z_res' : vtx_weight_cut_z_res,
+                'vtx_weight_cut_weighted_z_res' : vtx_weight_cut_weighted_z_res,
+                'vtx_sigma_cut_weighted_z_res' : vtx_sigma_cut_weighted_z_res,
+                'vtx_z_res_tracks_sigma_cut' : vtx_z_res_tracks_sigma_cut,
+                'vtx_weighted_z_res_tracks_sigma_cut' : vtx_weighted_z_res_tracks_sigma_cut,
+                'track_vtx_z_res_std' : track_vtx_z_res_std,
+                'track_vtx_z_res_std_weight_cut' : track_vtx_z_res_std_weight_cut,
+                'track_vtx_z_res_std_sigma_cut' : track_vtx_z_res_std_sigma_cut,
+                'vtx_z_res_std' : vtx_z_res_std,
+                'vtx_weighted_z_res_std' : vtx_weighted_z_res_std,
+                'vtx_weight_cut_z_res_std' : vtx_weight_cut_z_res_std,
+                'vtx_weight_cut_weighted_z_res_std' : vtx_weight_cut_weighted_z_res_std,
+                'vtx_z_res_std_tracks_sigma_cut' : vtx_z_res_std_tracks_sigma_cut,
+                'vtx_weighted_z_res_std_tracks_sigma_cut' : vtx_weighted_z_res_std_tracks_sigma_cut
+            }
+            
+            
+def closest_truth_vtx_z_info(events_in_PU_bins, all_truth_vtx_z, all_reco_track_idxs, all_reco_track_weights, all_reco_vtx_z, all_track_z0, sigma_cut, weight_cut):
+    reco_vtx_idx_in_PU_bins = [[0 for idx in event_idx] for event_idx in events_in_PU_bins]
+    truth_vtx_idx_in_PU_bins = [[np.argmin(np.abs(truth_vertex_z[idx[0]] - reco_vertex_z[idx[0]][0])) for idx in event_idx] for event_idx in events_in_PU_bins]
+    return vtx_z_info(events_in_PU_bins, truth_vtx_idx_in_PU_bins, all_truth_vtx_z, reco_vtx_idx_in_PU_bins, all_reco_track_idxs, all_reco_track_weights, all_track_z0, sigma_cut, weight_cut)
+
+def truth_to_reco_link_vtx_z_info(events_in_PU_bins, all_truthHS_to_reco_idx, all_truth_vtx_z, all_reco_track_idxs, all_reco_track_weights, all_track_z0, sigma_cut, weight_cut):
+    truth_vtx_idx_in_PU_bins = [[0 for idx in event_idx] for event_idx in events_in_PU_bins]
+    reco_vtx_idx_in_PU_bins = [[all_truthHS_to_reco_idx[idx[0]] for idx in event_idx] for event_idx in events_in_PU_bins]
+    
+    return vtx_z_info(events_in_PU_bins, truth_vtx_idx_in_PU_bins, all_truth_vtx_z, reco_vtx_idx_in_PU_bins, all_reco_track_idxs, all_reco_track_weights, all_track_z0, sigma_cut, weight_cut)
