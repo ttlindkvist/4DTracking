@@ -1,0 +1,68 @@
+## Event selections
+
+Low tLPU event 
+   pu bin 0
+    abs event 15945
+    bin sigma (ps) 81.3395231962204
+    delta_t (ps) 81.44514262676239 
+    Athena reco_z (mm) 18.137604 
+    Delta z (µm) 2.8934478759765625 
+    reco_idx 0 
+    reco_idx_delta_z_cut 0
+    tLPU 0.0
+    zLPU 2.75
+    ('../ntuples/ttbar/OutDir_20/hist-Rel21sample.root', 'EventTree;4', 254)
+
+High tLPU event
+    pu bin 10
+    abs event 7762
+    bin sigma (ps) 25.055188685655594
+    delta_t (ps) 25.801576673984528 
+    Athena reco_z (mm) 35.57047 
+    Delta z (µm) -12.115478515625 
+    reco_idx 0 
+    reco_idx_delta_z_cut 0
+    tLPU 15.0
+    zLPU 1.0
+    ('../ntuples/ttbar/OutDir_11/hist-Rel21sample.root', 'EventTree;4', 372)
+
+Low zLPU event
+    pu bin 0
+    abs event 11507
+    bin sigma (ps) 6.586030591279268
+    delta_t (ps) 6.583675742149353 
+    Athena reco_z (mm) 97.32495 
+    Delta z (µm) -2.72369384765625 
+    reco_idx 0 
+    reco_idx_delta_z_cut 0
+    tLPU 11.25
+    zLPU 0.0
+    ('../ntuples/ttbar/OutDir_15/hist-Rel21sample.root', 'EventTree;4', 431)
+
+High zLPU event
+    pu bin 12
+    abs event 2273
+    bin sigma (ps) 59.614237397909164
+    delta_t (ps) 65.01607596874237 
+    Athena reco_z (mm) -3.2410731 
+    Delta z (µm) -6.9942474365234375 
+    reco_idx 0 
+    reco_idx_delta_z_cut 0
+    tLPU 12.0
+    zLPU 3.0
+    ('../ntuples/ttbar/OutDir_5/hist-Rel21sample.root', 'EventTree;4', 424)
+
+High zLPU and high tLPU:
+    number of events in bin 204
+    pu bin 12
+    bin event idx 36
+    abs event 2871
+    bin sigma (ps) 59.614237397909164
+    delta_t (ps) 228.4601330757141 
+    Athena reco_z (mm) 5.3603797 
+    Delta z (µm) 286.1638069152832 
+    reco_idx 0 
+    reco_idx_delta_z_cut 0
+    tLPU 15.0
+    zLPU 3.0
+    ('../ntuples/ttbar/OutDir_6/hist-Rel21sample.root', 'EventTree;4', 96)
